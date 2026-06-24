@@ -4,7 +4,7 @@
 
 A personal R&D workbench that bundles **shell script shortcuts**, **app/site navigation**, **notes & docs**, **API proxy & debugging**, **Hosts management**, **code snippets**, and **AI chat (QuickForge)** into one desktop client, with a Web UI and supporting toolchain.
 
-- Official site: https://tpdoc.cn/uworkplus/introduction?origin=custom
+- Official site: <a href="https://tpdoc.cn/uworkplus/introduction?origin=custom" target="_blank" rel="noopener noreferrer">https://tpdoc.cn/uworkplus/introduction?origin=custom</a>
 - Live demo (self-hosted): set `VITE_REMOTE_ORIGIN`, then open `{ORIGIN}/uworkplus/`
 - Repository: https://gitee.com/redorc/uwork-plus-top.git
 - GitHub: https://github.com/Caofh/uwork-plus-top.git
@@ -414,7 +414,7 @@ Terminal execution, proxy, Hosts, and auto-update require Electron.
 
 | Resource | Notes |
 |----------|-------|
-| Official site / product intro | https://tpdoc.cn/uworkplus/introduction?origin=custom |
+| Official site / product intro | <a href="https://tpdoc.cn/uworkplus/introduction?origin=custom" target="_blank" rel="noopener noreferrer">https://tpdoc.cn/uworkplus/introduction?origin=custom</a> |
 | Web entry | `{VITE_REMOTE_ORIGIN}/uworkplus/` (self-hosted) |
 | Product intro (self-hosted) | `{VITE_REMOTE_ORIGIN}/uworkplus/introduction` |
 | Electron update manifest | `{VITE_REMOTE_ORIGIN}/updates/update-info-latest.json` |
