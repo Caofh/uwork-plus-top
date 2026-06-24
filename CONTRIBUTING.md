@@ -17,7 +17,7 @@ Copy environment templates and fill in your own endpoints:
 cp web/.env.example web/.env.local
 ```
 
-See [README.md](./README.md#配置) (Chinese) or [README.en.md](./README.en.md#configuration) for all configuration options.
+See [README.md](./README.md#configuration) (English) or [README.zh.md](./README.zh.md#配置) for all configuration options.
 
 ## Git Author Email
 
