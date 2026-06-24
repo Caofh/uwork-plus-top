@@ -5,8 +5,8 @@ Thank you for your interest in contributing!
 ## Getting Started
 
 ```bash
-git clone https://gitee.com/redorc/uwork-plus.git
-cd uwork-plus
+git clone https://gitee.com/redorc/uwork-plus-top.git
+cd uwork-plus-top
 yarn install:all
 ```
 
@@ -16,7 +16,7 @@ Copy environment templates and fill in your own endpoints:
 cp web/.env.example web/.env.local
 ```
 
-See [README.md](./README.md#configuration) for all configuration options.
+See [README.md](./README.md#配置) (Chinese) or [README.en.md](./README.en.md#configuration) for all configuration options.
 
 ## Development
 

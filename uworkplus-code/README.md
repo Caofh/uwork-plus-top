@@ -1,6 +1,6 @@
 # uworkplus-code
 
-VS Code extension for [UworkPlus](https://gitee.com/redorc/uwork-plus): code snippets, component downloads, and low-code workflow.
+VS Code extension for [UworkPlus](https://gitee.com/redorc/uwork-plus-top.git): code snippets, component downloads, and low-code workflow.
 
 ## Features
 

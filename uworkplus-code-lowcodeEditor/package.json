@@ -6,7 +6,7 @@
   "description": "Visual low-code page editor for UworkPlus",
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/redorc/uwork-plus.git",
+    "url": "https://gitee.com/redorc/uwork-plus-top.git",
     "directory": "uworkplus-code-lowcodeEditor"
   },
   "license": "MIT",

@@ -2,7 +2,7 @@
   "name": "uwork-plus",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://gitee.com/redorc/uwork-plus.git",
+  "repository": "https://gitee.com/redorc/uwork-plus-top.git",
   "author": "UworkPlus Contributors",
   "license": "MIT",
   "scripts": {
@@ -10,7 +10,7 @@
     "install:web": "(cd web && yarn install)",
     "install:mini": "(cd mini-markdown-editor/packages/mini-markdown-editor && pnpm install)",
     "install:quickforge": "node scripts/ensure-submodules.js quickforge && (cd quickforge && yarn install)",
-    "install:electron": "(cd electron && yarn install)",
+    "install:electron": "(cd electron && yarn install --production=false)",
     "install:vscode-ext": "(cd uworkplus-code && npm install)",
     "install:lowcode": "(cd uworkplus-code-lowcodeEditor && yarn install)",
     "dev:web": "(cd web && yarn dev)",

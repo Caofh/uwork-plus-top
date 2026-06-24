@@ -1,8 +1,5 @@
 // 环境配置
 const env = process.env.NODE_ENV || 'development'
-// const env = 'production'
-console.log('env')
-console.log(env)
 
 const remoteOrigin = (process.env.VITE_REMOTE_ORIGIN || '').trim()
 const defaultApiBase = remoteOrigin ? `${remoteOrigin}/api_2020/iwork` : '/api'

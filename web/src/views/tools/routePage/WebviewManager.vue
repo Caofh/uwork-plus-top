@@ -387,7 +387,7 @@
     }
   }
 
-  const showLoadingLoop = null
+  let showLoadingLoop = null
   function handleSelect(item) {
     activeId.value = item.id
     activeUrl.value = normalizeUrl(item.url)

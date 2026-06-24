@@ -4,6 +4,8 @@ import { getCookie } from './cookie'
 import eventBus from './eventBus'
 import { useCommonStore } from '@/store/common'
 
+const isDev = import.meta.env.DEV
+
 // 声明全局变量
 declare const __API_CONFIG__: any
 declare const __APP_CONFIG__: any
@@ -22,27 +24,20 @@ instance.interceptors.request.use(
   (config: any) => {
     const commonStore = useCommonStore()
 
-    // 获取请求参数
-    console.log('=== 请求拦截器 ===')
-    console.log('完整config:', config)
-    console.log('请求方法:', config.method)
-    console.log('请求URL:', config.url)
-    console.log('请求头:', config.headers)
-    // 获取URL参数 (GET请求的query参数)
-    console.log('URL参数 (params):', config.params)
-    // 获取请求体数据 (POST/PUT/PATCH请求的body数据)
-    console.log('请求体数据 (data):', config.data)
-    // 获取完整的请求URL
-    console.log('完整请求URL:', config.baseURL + config.url)
+    if (isDev) {
+      console.log('=== 请求拦截器 ===')
+      console.log('请求方法:', config.method)
+      console.log('请求URL:', config.url)
+      console.log('URL参数 (params):', config.params)
+    }
 
-    // 获取test参数
     const test = config?.params?.test
       ? config?.params?.test
       : config?.data?.test
         ? config?.data?.test
         : null
-    // 如果test参数不为1，检验token，并添加token到请求头
-    if (String(test) !== '1') {
+    const skipAuthForTest = isDev && String(test) === '1'
+    if (!skipAuthForTest) {
       // 添加token到请求头
       const token = getCookie('UworkPlus_token')
       if (token && config.headers) {
@@ -69,8 +64,9 @@ instance.interceptors.request.use(
 // 响应拦截器
 instance.interceptors.response.use(
   (response: any) => {
-    // 对响应数据做点什么
-    console.log('Response:', response)
+    if (isDev) {
+      console.log('Response:', response.status, response.config?.url)
+    }
 
     const { code, msg, data } = response.data
     if (code !== 200) {
