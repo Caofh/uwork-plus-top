@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Homebrew",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-brew.sh"
+  },
+  {
+    "name": "Git",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-git.sh"
+  },
+  {
+    "name": "NVM",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-nvm.sh"
+  },
+  {
+    "name": "Node.js",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-node.sh"
+  },
+  {
+    "name": "NRM",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-nrm.sh"
+  },
+  {
+    "name": "NRM注入 腾讯/华为源",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/resolve-add-nrm-origin.sh"
+  },
+  {
+    "name": "Yarn",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-yarn.sh"
+  },
+  {
+    "name": "pnpm",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-pnpm.sh"
+  },
+  {
+    "name": "一键安装21款常用的vscode插件",
+    "shUrl": "https://raw.giteeusercontent.com/redorc/mac-init/raw/master/softWare-sh/install-vscode-plugins.sh"
+  }
+]

@@ -1,0 +1,3 @@
+[submodule "quickforge"]
+	path = quickforge
+	url = https://gitee.com/redorc/quick-forge.git

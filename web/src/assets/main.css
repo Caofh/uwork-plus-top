@@ -1,0 +1,48 @@
+@import './base.css';
+
+body {
+  min-width: 800px;
+}
+
+#app {
+  width: 100vw;
+  min-height: calc(100vh - 40px);
+  min-width: 800px;
+  font-weight: normal;
+  box-sizing: border-box;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+/* @media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+} */
+
+/* @media (max-width: 800px) {
+  body, #app {
+    min-width: 0 !important;
+    width: 100vw !important;
+    overflow-x: auto;
+  }
+} */

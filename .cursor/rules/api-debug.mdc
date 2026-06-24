@@ -1,0 +1,53 @@
+---
+description: 接口调试 (apiDebug) 模块上下文与修改约束
+globs: web/src/views/apiDebug/**,web/src/monacoEnvironment.ts,web/src/views/apiDebug/**
+alwaysApply: false
+---
+
+# 接口调试 (apiDebug) — 已定型上下文
+
+修改本模块时**只做用户明确要求的事**，不要顺带重构、改逻辑或动无关文件。
+
+## 核心文件
+
+| 文件 | 职责 |
+|------|------|
+| `index.vue` | 主 UI：双栏响应、Mock 开关、发送/保存、比对弹窗 |
+| `components/JsonMonacoEditor.vue` | 响应/Mock JSON 的 Monaco 只读/可编辑展示 |
+| `components/MockPanel.vue` | Mock 场景列表与 JSON 编辑 |
+| `monacoSetup.ts` | 静态 import monaco + CSS |
+| `monacoEnvironment.ts` | Vite `?worker` 真实 Worker（json/editor/css/html/ts） |
+| `main.js` | 启动时 `setupMonacoEnvironment()`，**勿恢复空 Worker 桩** |
+| `sessionCacheService.ts` / `types.ts` | 会话与持久化类型 |
+
+## 响应与 Mock 行为（勿擅自改语义）
+
+- **双栏**：左=响应，右=Mock 预览
+- **Mock 开 + 发送**：左栏显示 Mock（`responseFromMock=true`），不发真实 HTTP
+- **Mock 关 + 发送**：真实请求，左栏真实响应
+- **保存**：写入 `savedResponse` 快照；树首次点击不自动灌入历史响应
+- **应用 Mock**：`handleApplyMock` → `applyMockResponse`；右侧 `mockResponseResult`
+
+## 比对按钮
+
+- `canCompareResponse`：左侧 `getLeftJsonForCompare`（响应区 Body，含 Mock 发送）**且**右侧 `getMockJsonForCompare` 均有内容
+- 弹窗：`JsonGitDiff`；左标签 `responseCompareLeftLabel`（Mock 发送时为「响应 (Mock)」）
+- **不要**再要求左侧必须是 `!responseFromMock` 才能比对
+
+## Monaco
+
+- JSON 折叠依赖 **真实 json.worker**（`monacoEnvironment.ts` + `vite worker.format: es`）
+- 编辑器选项：`folding: true`, `showFoldingControls: 'always'`, `wordWrap: 'off'`
+- 不要删 Worker 改回主线程 hack，除非用户明确要求
+
+## 全局代理
+
+- `SystemProxyBar` + `systemProxyToggleLoading` 全页 loading
+- MITM 端口 **7035**；关代理会关 Mock
+
+## 修改原则
+
+1. 最小 diff，只改用户点名的文件/功能
+2. 不动 `index.vue` 里已注释的业务分支（如 `handleApplyMock` 附近）除非用户要求
+3. 不恢复 `<pre>` 或 `el-textarea` 替代 Monaco
+4. 不提交/不 push，除非用户明确要求

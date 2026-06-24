@@ -1,0 +1,133 @@
+{
+  "name": "UworkPlus",
+  "version": "1.11.6",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "setup": "yarn install --production=false && yarn rebuild-native-arm64",
+    "start": "NODE_ENV=development ./node_modules/.bin/electron .",
+    "build": "yarn rebuild-native-arm64 && sh sh/sh.sh && NODE_ENV=production ./node_modules/.bin/electron-builder",
+    "build-unsigned": "yarn rebuild-native-arm64 && sh sh/sh.sh && CSC_IDENTITY_AUTO_DISCOVERY=false NODE_ENV=production ./node_modules/.bin/electron-builder",
+    "build-x64": "yarn rebuild-native-x64 && sh sh/sh.sh && NODE_ENV=production ./node_modules/.bin/electron-builder --mac --x64 && yarn rebuild-native-arm64",
+    "build-x64-unsigned": "yarn rebuild-native-x64 && sh sh/sh.sh && CSC_IDENTITY_AUTO_DISCOVERY=false NODE_ENV=production ./node_modules/.bin/electron-builder --mac --x64 && yarn rebuild-native-arm64",
+    "build-win": "sh sh/sh.sh && NODE_ENV=production ./node_modules/.bin/electron-builder --win --x64",
+    "build-win-32": "sh sh/sh.sh && NODE_ENV=production ./node_modules/.bin/electron-builder --win --ia32",
+    "build-all": "rm -rf build && yarn build && yarn build-x64 && yarn build-win",
+    "rm-build": "rm -rf build",
+    "build-update": "node scripts/build-update.js",
+    "build-update-upload": "node ../scripts/scp-deploy.js build/update-files /data/resource/electron/updates",
+    "publishAli2": "bash scripts/publish-ali2.sh",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "rebuild": "./node_modules/.bin/electron-rebuild",
+    "rebuild-native-arm64": "rm -rf node_modules/node-pty/build && ./node_modules/.bin/electron-rebuild -f -w node-pty --arch=arm64 && node scripts/verify-pty-arch.js arm64",
+    "rebuild-native-x64": "rm -rf node_modules/node-pty/build && ./node_modules/.bin/electron-rebuild -f -w node-pty --arch=x64 && node scripts/verify-pty-arch.js x86_64"
+  },
+  "build": {
+    "appId": "com.uworkplus.id",
+    "productName": "UworkPlus",
+    "icon": "assets/logo/logo.png",
+    "npmRebuild": false,
+    "asarUnpack": [
+      "**/node_modules/node-pty/**/*"
+    ],
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js",
+      "server.js",
+      "hostsManager.js",
+      "apiRequest.js",
+      "hostsSudoInstall.js",
+      "proxyServerManager.js",
+      "proxyServerWorker.js",
+      "systemProxyManager.js",
+      "systemProxyWorker.js",
+      "macSystemProxy.js",
+      "mitmCaManager.js",
+      "apiDebugMockStore.js",
+      "proxyWorkerEnv.js",
+      "serverSpider.js",
+      "spider_crawler.js",
+      "spider_api.js",
+      "spider_utils.js",
+      "spider_template.js",
+      "utils.js",
+      "index.html",
+      "loading.html",
+      "update-manager.js",
+      "assets/**/*",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/",
+        "to": "resources"
+      },
+      {
+        "from": "scripts/uwork-hosts-write.sh",
+        "to": "scripts/uwork-hosts-write.sh"
+      },
+      {
+        "from": "assets/",
+        "to": "assets"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "entitlements": "build/entitlements.mac.plist",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "授权访问麦克风",
+        "NSCameraUsageDescription": "授权访问摄像头"
+      }
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^4.0.4",
+    "child_process": "^1.0.2",
+    "electron": "^31.1.0",
+    "electron-builder": "^24.13.3",
+    "fs": "^0.0.1-security",
+    "iconv-lite": "^0.6.3",
+    "path": "^0.12.7"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "auto-launch": "^5.0.6",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "fs-extra": "^11.2.0",
+    "http-mitm-proxy": "0.9.0",
+    "http-proxy-middleware": "^3.0.3",
+    "ip": "^2.0.1",
+    "node-pty": "^1.0.0",
+    "semver": "^7.5.4",
+    "shell-env": "^4.0.1",
+    "tencentcloud-sdk-nodejs": "^4.1.201"
+  },
+  "engines": {
+    "node": "22.18.0"
+  },
+  "resolutions": {
+    "node-gyp": "^10.2.0"
+  }
+}

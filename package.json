@@ -1,0 +1,40 @@
+{
+  "name": "uwork-plus",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://gitee.com/redorc/uwork-plus.git",
+  "author": "UworkPlus Contributors",
+  "license": "MIT",
+  "scripts": {
+    "install:all": "NODE_ENV=development && node scripts/ensure-submodules.js quickforge && concurrently \"yarn install:web\" \"yarn install:mini\" \"yarn install:quickforge\" \"yarn install:electron\"",
+    "install:web": "(cd web && yarn install)",
+    "install:mini": "(cd mini-markdown-editor/packages/mini-markdown-editor && pnpm install)",
+    "install:quickforge": "node scripts/ensure-submodules.js quickforge && (cd quickforge && yarn install)",
+    "install:electron": "(cd electron && yarn install)",
+    "install:vscode-ext": "(cd uworkplus-code && npm install)",
+    "install:lowcode": "(cd uworkplus-code-lowcodeEditor && yarn install)",
+    "dev:web": "(cd web && yarn dev)",
+    "dev:mini": "(cd mini-markdown-editor/packages/mini-markdown-editor && pnpm dev)",
+    "dev:quickforge": "node scripts/ensure-submodules.js quickforge && (cd quickforge && yarn dev)",
+    "dev:electron": "(sleep 3 && cd electron && yarn start)",
+    "dev:all": "node scripts/ensure-submodules.js quickforge && concurrently \"yarn dev:web\" \"yarn dev:mini\" \"yarn dev:quickforge\" \"yarn dev:electron\"",
+    "build:web": "(cd web && yarn build)",
+    "build:mini": "(cd mini-markdown-editor/packages/mini-markdown-editor && pnpm build)",
+    "build:electron": "(cd electron && yarn build)",
+    "build:all": "concurrently \"yarn build:web\" \"yarn build:mini\" \"yarn build:electron\"",
+    "publishAli2:web": "(cd web && yarn publishAli2)",
+    "publishAli2:mini": "(cd mini-markdown-editor/packages/mini-markdown-editor && pnpm publishAli2)",
+    "publishAli2:electron": "cd electron && bash scripts/publish-ali2.sh",
+    "publishAli2:electron-v0": "(cd electron && echo '需要去`electron`项目内去执行多条命令' && open ./README.md)"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "engines": {
+    "node": "22.18.0"
+  },
+  "dependencies": {
+    "generator-code": "^1.11.12",
+    "mem-fs": "^4.1.2"
+  }
+}

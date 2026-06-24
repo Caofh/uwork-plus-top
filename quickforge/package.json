@@ -1,0 +1,101 @@
+{
+  "name": "@shawnstack/quickforge",
+  "version": "1.3.18",
+  "description": "AI chat application with YOLO-mode local workspace tools. React + Vite + Tailwind CSS frontend, local Node.js storage server.",
+  "keywords": [
+    "ai",
+    "chat",
+    "llm",
+    "claude",
+    "openai",
+    "anthropic",
+    "litellm",
+    "react",
+    "vite",
+    "tailwindcss",
+    "yolo",
+    "workspace",
+    "tools"
+  ],
+  "author": "UworkPlus Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shawnstack/quickforge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shawnstack/quickforge/issues"
+  },
+  "homepage": "https://github.com/shawnstack/quickforge#readme",
+  "type": "module",
+  "bin": {
+    "quickforge": "bin/quickforge.mjs",
+    "qf": "bin/quickforge.mjs"
+  },
+  "files": [
+    "bin",
+    "server",
+    "skills",
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "scripts": {
+    "dev": "NODE_ENV=development QUICKFORGE_VITE_PORT=5190 node server/index.mjs --dev",
+    "dev:web": "vite --host 127.0.0.1 --port 5176 --strictPort",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "release:patch:prepare": "node scripts/prepare-patch-release.cjs",
+    "start": "node server/index.mjs",
+    "preview": "node server/index.mjs",
+    "quickforgeRestart": "node bin/quickforge.mjs restart",
+    "quickforgeStart": "node bin/quickforge.mjs start",
+    "quickforgeStop": "node bin/quickforge.mjs stop",
+    "quickforgeStatus": "node bin/quickforge.mjs status",
+    "quickforgeLogs": "node bin/quickforge.mjs logs",
+    "checkLocal5176": "node scripts/check-local-port.cjs 5176"
+  },
+  "dependencies": {
+    "@mariozechner/pi-agent-core": "^0.70.5",
+    "@mariozechner/pi-ai": "^0.70.5",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@vscode/ripgrep": "^1.18.0",
+    "ws": "^8.20.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@mariozechner/mini-lit": "^0.2.1",
+    "@mariozechner/pi-web-ui": "^0.70.5",
+    "@monaco-editor/react": "^4.7.0",
+    "@tailwindcss/vite": "^4.2.4",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "eslint": "^10.2.1",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
+    "lit": "^3.3.2",
+    "lucide-react": "^1.11.0",
+    "monaco-editor": "^0.55.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.4",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.58.2",
+    "vite": "^8.0.10"
+  },
+  "optionalDependencies": {
+    "node-pty": "^1.1.0"
+  },
+  "engines": {
+    "node": "22.18.0"
+  }
+}

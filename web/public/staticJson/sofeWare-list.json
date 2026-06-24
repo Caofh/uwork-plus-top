@@ -1,0 +1,164 @@
+[
+    {
+      "app": "AndroidStudio.app",
+      "name": "Android Studio",
+      "url": "https://edgedl.me.gvt1.com/android/studio/install/2026.1.1.10/android-studio-quail1-patch2-mac_arm.dmg"
+    },
+    {
+      "app": "Another Redis Desktop Manager.app",
+      "name": "Another Redis Desktop Manager",
+      "url": "http://gitee.com/qishibo/AnotherRedisDesktopManager/releases/download/v1.7.1/Another-Redis-Desktop-Manager-mac-1.7.1-arm64.dmg"
+    },
+    {
+      "app": "Apifox.app",
+      "name": "Apifox",
+      "url": "https://file-assets.apifox.com/download/Apifox-macOS-arm64-latest.zip"
+    },
+    {
+      "app": "Blender.app",
+      "name": "Blender",
+      "url": "https://ftp.halifax.rwth-aachen.de/blender/release/Blender5.1/blender-5.1.2-macos-arm64.dmg"
+    },
+    {
+      "app": "Charles.app",
+      "name": "Charles",
+      "url": "https://www.charlesproxy.com/assets/release/5.2/charles-proxy-5.2.dmg"
+    },
+    {
+      "app": "CocosDashboard.app",
+      "name": "Cocos Dashboard",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "Cursor.app",
+      "name": "Cursor",
+      "url": "https://api2.cursor.sh/updates/download/golden/darwin-arm64/cursor/3.8"
+    },
+    {
+      "app": "DoubaoImeInstaller_v0.9.1.app",
+      "name": "豆包输入法",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "FileZilla.app",
+      "name": "FileZilla",
+      "url": "https://download.filezilla.cn/client/macosx/FileZilla_3.68.1_macos-arm64.app.tar.bz2"
+    },
+    {
+      "app": "Google Chrome.app",
+      "name": "Google Chrome",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "iTerm.app",
+      "name": "iTerm",
+      "url": "https://iterm2.com/downloads/stable/iTerm2-3_6_11.zip"
+    },
+    {
+      "app": "IntelliJ IDEA.app",
+      "name": "IntelliJ IDEA",
+      "url": "https://www.jetbrains.com/idea/download/download-thanks.html?platform=macM1"
+    },
+    {
+      "app": "Lark.app",
+      "name": "飞书",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "NeteaseMusic.app",
+      "name": "网易云音乐",
+      "url": "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_3.1.8.3330_arm64.dmg"
+    },
+    {
+      "app": "Quark.app",
+      "name": "夸克",
+      "url": "https://umcdn.quark.cn/download/37214/quarkmac/pcquark@homepage_oficial_mini/QuarkMac_V6.9.1.868_mac_pf30004_(zh-cn)_releasemini_(Build2657224).dmg"
+    },
+    {
+      "app": "Sequel Pro.app",
+      "name": "Sequel Pro",
+      "url": "https://github.com/sequelpro/sequelpro/releases",
+      "type": "document"
+    },
+    {
+      "app": "Sketch.app",
+      "name": "Sketch",
+      "url": "https://www.sketch.com/downloads/mac/",
+      "type": "document"
+    },
+    {
+      "app": "Sourcetree.app",
+      "name": "Sourcetree",
+      "url": "https://product-downloads.atlassian.com/software/sourcetree/ga/Sourcetree_4.2.18_313.zip"
+    },
+    {
+      "app": "SwitchHosts.app",
+      "name": "SwitchHosts",
+      "url": "http://github.com/oldj/SwitchHosts/releases/download/v5.0.1/SwitchHosts-5.0.1-mac-aarch64.dmg"
+    },
+    {
+      "app": "SwitchProxy.app",
+      "name": "SwitchProxy",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "TencentMeeting.app",
+      "name": "腾讯会议",
+      "url": "https://meeting.tencent.com/download/",
+      "type": "document"
+    },
+    {
+      "app": "Trae.app",
+      "name": "Trae",
+      "url": "https://lf-cdn.trae.com.cn/obj/trae-com-cn/pkg/app/releases/stable/2.3.42912/darwin/Trae-darwin-arm64.dmg"
+    },
+    {
+      "app": "UGREEN NAS.app",
+      "name": "UGREEN NAS",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "VideoFusion-macOS.app",
+      "name": "剪映",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "Visual Studio Code.app",
+      "name": "Visual Studio Code（Vscode编辑器）",
+      "url": "https://vscode.download.prss.microsoft.com/dbazure/download/stable/fcf604774b9f2674b473065736ee75077e256353/VSCode-darwin-arm64.dmg"
+    },
+    {
+      "app": "WeChat.app",
+      "name": "微信",
+      "url": "https://dldir1v6.qq.com/weixin/Universal/Mac/WeChatMac_4.1.10.dmg"
+    },
+    {
+      "app": "wechatwebdevtools.app",
+      "name": "微信开发者工具",
+      "url": "https://servicewechat.com/wxa-dev-logic/download_redirect?type=darwin_arm64&from=mpwiki&download_version=2012510290&version_type=1"
+    },
+    {
+      "app": "Whistle.app",
+      "name": "Whistle",
+      "url": "https://github.com/avwo/whistle-client/releases/download/v1.6.4/Whistle-v1.6.4-mac-arm64.dmg"
+    },
+    {
+      "app": "Xcode.app",
+      "name": "Xcode",
+      "url": "",
+      "type": "document"
+    },
+    {
+      "app": "飞书开发者工具.app",
+      "name": "飞书开发者工具",
+      "url": "",
+      "type": "document"
+    }
+  ]

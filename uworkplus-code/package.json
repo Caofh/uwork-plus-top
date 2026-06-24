@@ -1,0 +1,123 @@
+{
+  "name": "uworkplus-code",
+  "publisher": "uworkplus",
+  "displayName": "uworkplus-code",
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/redorc/uwork-plus.git",
+    "directory": "uworkplus-code"
+  },
+  "license": "MIT",
+  "icon": "resources/uworkplus.png",
+  "description": "a plugin for uworkplus",
+  "version": "1.2.1",
+  "engines": {
+    "vscode": "^1.89.0",
+    "node": "22.18.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.downComponent",
+        "title": "UworkPlus-下载组件到当前文件夹"
+      },
+      {
+        "command": "extension.downLowcode",
+        "title": "UworkPlus-生成低代码文件到当前文件夹JsonSchema"
+      },
+      {
+        "command": "extension.openLowcodeWebsite",
+        "title": "UworkPlus-打开低代码Web"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "extension.downComponent",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.downLowcode",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.openLowcodeWebsite",
+          "group": "navigation"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "uworkPlusTools",
+          "title": "UworkPlus",
+          "icon": "resources/uworkplus-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "uworkPlusTools": [
+        {
+          "id": "uworkplusCpt",
+          "name": "模块组件(文件夹)"
+        },
+        {
+          "id": "uworkplusCode",
+          "name": "代码片段"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "UworkPlus",
+      "properties": {
+        "uworkplus.remoteOrigin": {
+          "type": "string",
+          "default": "",
+          "description": "UworkPlus remote service origin (e.g. https://your-cdn.example.com)"
+        },
+        "uworkplus.lowcodeEditorUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Low-code editor URL. Defaults to {remoteOrigin}/lowcodeEditor/ when remoteOrigin is set."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.89.0",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "child_process": "^1.0.2",
+    "eslint": "^9.34.0",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "lodash": "^4.17.21",
+    "opn": "^6.0.0"
+  }
+}

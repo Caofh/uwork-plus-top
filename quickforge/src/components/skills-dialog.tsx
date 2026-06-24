@@ -1,0 +1,410 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { BookOpen, Check, ChevronLeft, Loader2, Search } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { t } from '@/lib/i18n'
+import type { ProjectInfo, SkillSummary, SkillsScope } from '@/lib/types'
+
+type SkillsDialogProps = {
+  open: boolean
+  scope: SkillsScope
+  project?: ProjectInfo
+  onOpenChange: (open: boolean) => void
+  onSaved: (payload: { scope: SkillsScope; project?: ProjectInfo; projects?: ProjectInfo[]; selectedSkills: string[] }) => void
+}
+
+type SkillsPayload = {
+  skills: SkillSummary[]
+  selectedSkills: string[]
+  searchPaths?: string[]
+}
+
+type SavePayload = {
+  selectedSkills: string[]
+  projects?: ProjectInfo[]
+}
+
+type SkillContent = {
+  name: string
+  displayName?: string | null
+  description?: string | null
+  version?: string | null
+  tags?: string[]
+  triggers?: string[]
+  compatibility?: string | null
+  allowedTools?: string | null
+  license?: string | null
+  source?: string | null
+  instructions: string
+  totalLines: number
+}
+
+async function readJsonResponse<T>(response: Response): Promise<T> {
+  const payload = await response.json().catch(() => null)
+  if (!response.ok) throw new Error(payload?.error || `HTTP ${response.status}`)
+  return payload as T
+}
+
+export function SkillsDialog({ open, scope, project, onOpenChange, onSaved }: SkillsDialogProps) {
+  const [skills, setSkills] = useState<SkillSummary[]>([])
+  const [selectedSkills, setSelectedSkills] = useState<Set<string>>(() => new Set())
+  const [query, setQuery] = useState('')
+  const [searchPaths, setSearchPaths] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+  const isProjectScope = scope === 'project'
+
+  // --- Reading state ---
+  const [readingSkillName, setReadingSkillName] = useState<string | null>(null)
+  const [skillContent, setSkillContent] = useState<SkillContent | null>(null)
+  const [readingLoading, setReadingLoading] = useState(false)
+  const [readingError, setReadingError] = useState('')
+
+  const resetReadingState = useCallback(() => {
+    setReadingSkillName(null)
+    setSkillContent(null)
+    setReadingError('')
+  }, [])
+
+  const closeDialog = useCallback(() => {
+    resetReadingState()
+    onOpenChange(false)
+  }, [onOpenChange, resetReadingState])
+
+  useEffect(() => {
+    if (!open || (isProjectScope && !project)) return
+
+    let disposed = false
+    const loadSkills = async () => {
+      setLoading(true)
+      setError('')
+      try {
+        const url = isProjectScope
+          ? `/api/skills?projectId=${encodeURIComponent(project!.id)}`
+          : '/api/skills?scope=global'
+        const response = await fetch(url)
+        const payload = await readJsonResponse<SkillsPayload>(response)
+        if (disposed) return
+        setSkills(Array.isArray(payload.skills) ? payload.skills : [])
+        setSelectedSkills(new Set(Array.isArray(payload.selectedSkills) ? payload.selectedSkills : []))
+        setSearchPaths(Array.isArray(payload.searchPaths) ? payload.searchPaths : [])
+      } catch (loadError) {
+        if (!disposed) setError(loadError instanceof Error ? loadError.message : t('failedToLoadSkills'))
+      } finally {
+        if (!disposed) setLoading(false)
+      }
+    }
+
+    void loadSkills()
+    return () => {
+      disposed = true
+    }
+  }, [open, project, isProjectScope])
+
+  useEffect(() => {
+    if (!open) return
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (readingSkillName) {
+          resetReadingState()
+        } else if (!saving) {
+          closeDialog()
+        }
+      }
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [closeDialog, open, saving, readingSkillName, resetReadingState])
+
+  const filteredSkills = useMemo(() => {
+    const text = query.trim().toLowerCase()
+    if (!text) return skills
+    return skills.filter((skill) => {
+      const haystack = [
+        skill.name,
+        skill.displayName,
+        skill.description,
+        skill.source,
+        skill.compatibility,
+        skill.allowedTools,
+        ...(skill.tags ?? []),
+        ...(skill.triggers ?? []),
+      ].filter(Boolean).join(' ').toLowerCase()
+      return haystack.includes(text)
+    })
+  }, [query, skills])
+
+  const readSkillContent = async (skillName: string) => {
+    setReadingSkillName(skillName)
+    setSkillContent(null)
+    setReadingError('')
+    setReadingLoading(true)
+    try {
+      const params = new URLSearchParams({ name: skillName })
+      if (isProjectScope && project) {
+        params.set('scope', 'project')
+        params.set('projectId', project.id)
+      } else {
+        params.set('scope', 'global')
+      }
+      const response = await fetch(`/api/skills/content?${params}`)
+      const payload = await readJsonResponse<SkillContent>(response)
+      setSkillContent(payload)
+    } catch (err) {
+      setReadingError(err instanceof Error ? err.message : t('failedToReadSkill'))
+    } finally {
+      setReadingLoading(false)
+    }
+  }
+
+  const backToList = () => {
+    resetReadingState()
+  }
+
+  if (!open || (isProjectScope && !project)) return null
+
+  const toggleSkill = (skillName: string) => {
+    setSelectedSkills((current) => {
+      const next = new Set(current)
+      if (next.has(skillName)) next.delete(skillName)
+      else next.add(skillName)
+      return next
+    })
+  }
+
+  const save = async () => {
+    if (saving) return
+    setSaving(true)
+    setError('')
+    try {
+      const response = await fetch(isProjectScope ? '/api/skills/project' : '/api/skills/global', {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(isProjectScope
+          ? { projectId: project!.id, selectedSkills: [...selectedSkills] }
+          : { selectedSkills: [...selectedSkills] }),
+      })
+      const payload = await readJsonResponse<SavePayload>(response)
+      const updatedProject = isProjectScope
+        ? payload.projects?.find((item) => item.id === project!.id) ?? { ...project!, skills: payload.selectedSkills }
+        : undefined
+      onSaved({
+        scope,
+        project: updatedProject,
+        projects: payload.projects,
+        selectedSkills: payload.selectedSkills,
+      })
+      closeDialog()
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : t('failedToSaveSkills'))
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const title = isProjectScope ? t('projectSkills') : t('globalSkills')
+  const description = isProjectScope
+    ? t('projectSkillsDescription', { project: project!.name })
+    : t('globalSkillsDescription')
+
+  // --- Reading panel ---
+  const isReading = !!readingSkillName
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={(event) => {
+        if (event.target === event.currentTarget && !saving) closeDialog()
+      }}
+    >
+      <div className="flex max-h-[85vh] w-full max-w-2xl flex-col rounded-lg border border-border bg-background shadow-xl bg-card">
+        {/* Header */}
+        <div className="border-b border-border p-4">
+          {isReading ? (
+            <button
+              type="button"
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              onClick={backToList}
+            >
+              <ChevronLeft className="size-4" />
+              {t('backToSkillList')}
+            </button>
+          ) : (
+            <>
+              <h2 className="text-base font-semibold text-foreground">{title}</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {description}
+              </p>
+              {searchPaths.length ? (
+                <p className="mt-2 break-all text-xs text-muted-foreground/65">
+                  {t('skillSearchPaths')}: {searchPaths.join(' · ')}
+                </p>
+              ) : null}
+            </>
+          )}
+        </div>
+
+        {/* Body */}
+        <div className="min-h-0 flex-1 overflow-y-auto p-4">
+          {isReading ? (
+            // --- Reading panel ---
+            readingLoading ? (
+              <div className="flex items-center justify-center gap-2 py-8 text-sm text-muted-foreground">
+                <Loader2 className="size-4 animate-spin" />
+                {t('loading')}
+              </div>
+            ) : readingError ? (
+              <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">{readingError}</div>
+            ) : skillContent ? (
+              <div className="space-y-3">
+                {/* Metadata section */}
+                <div className="rounded-md border border-border px-3 py-2 text-sm space-y-1">
+                  <div className="font-medium text-foreground/90">
+                    {skillContent.displayName || skillContent.name}
+                    {skillContent.version ? <span className="ml-2 text-xs text-muted-foreground">v{skillContent.version}</span> : null}
+                  </div>
+                  {skillContent.description ? (
+                    <div className="text-muted-foreground/70">{skillContent.description}</div>
+                  ) : null}
+                  <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-muted-foreground/60">
+                    {skillContent.source ? <span>{skillContent.source}</span> : null}
+                    {skillContent.compatibility ? <span>· {skillContent.compatibility}</span> : null}
+                    {skillContent.allowedTools ? <span>· {skillContent.allowedTools}</span> : null}
+                    {skillContent.license ? <span>· {skillContent.license}</span> : null}
+                  </div>
+                  {skillContent.tags?.length ? (
+                    <div className="flex flex-wrap gap-1 pt-1">
+                      {skillContent.tags.map((tag) => (
+                        <span key={tag} className="rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {skillContent.triggers?.length ? (
+                    <div className="text-xs text-muted-foreground/60">
+                      Triggers: {skillContent.triggers.join(', ')}
+                    </div>
+                  ) : null}
+                </div>
+
+                {/* Instructions section */}
+                {skillContent.instructions ? (
+                  <pre className="whitespace-pre-wrap break-words rounded-md border border-border bg-muted/30 px-4 py-3 text-sm leading-6 text-foreground/80 font-mono">
+                    {skillContent.instructions}
+                  </pre>
+                ) : (
+                  <div className="py-4 text-center text-sm text-muted-foreground">{t('noSkillContent')}</div>
+                )}
+              </div>
+            ) : null
+          ) : (
+            // --- Skills list (existing) ---
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2">
+                <Search className="size-4 shrink-0 text-muted-foreground/60" />
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={t('searchSkills')}
+                  className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/45"
+                  disabled={loading || saving}
+                />
+              </div>
+
+              {error ? <div className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</div> : null}
+
+              <div className="rounded-md border border-border">
+                <div className="flex items-center justify-between border-b border-border px-3 py-2 text-xs text-muted-foreground">
+                  <span>{t('availableSkills')}</span>
+                  <span>{t('selectedSkillsCount', { count: selectedSkills.size })}</span>
+                </div>
+                <div className="max-h-[46vh] overflow-y-auto p-1">
+                  {loading ? (
+                    <div className="flex items-center justify-center gap-2 px-3 py-8 text-sm text-muted-foreground">
+                      <Loader2 className="size-4 animate-spin" />
+                      {t('loading')}
+                    </div>
+                  ) : filteredSkills.length === 0 ? (
+                    <div className="px-3 py-8 text-center text-sm text-muted-foreground">{t('noMatchingSkills')}</div>
+                  ) : (
+                    filteredSkills.map((skill) => {
+                      const checked = selectedSkills.has(skill.name)
+                      return (
+                        <div
+                          key={skill.name}
+                          className={cn(
+                            'flex w-full items-start gap-3 rounded-md px-3 py-3 text-left text-sm transition-colors hover:bg-secondary disabled:opacity-50',
+                            checked && 'bg-secondary/70',
+                          )}
+                        >
+                          <button
+                            type="button"
+                            className={cn(
+                              'mt-0.5 flex size-5 shrink-0 items-center justify-center rounded border border-input',
+                              checked && 'border-primary bg-primary text-primary-foreground',
+                            )}
+                            onClick={() => toggleSkill(skill.name)}
+                            disabled={saving}
+                            aria-label={checked ? `Deselect ${skill.name}` : `Select ${skill.name}`}
+                          >
+                            {checked ? <Check className="size-3.5" /> : null}
+                          </button>
+                          <span className="min-w-0 flex-1 cursor-pointer" onClick={() => toggleSkill(skill.name)}>
+                            <span className="block truncate font-medium text-foreground/90">
+                              {skill.displayName || skill.name}
+                            </span>
+                             {skill.description ? (
+                              <span className="mt-0.5 block text-xs leading-5 text-muted-foreground/70">{skill.description}</span>
+                            ) : null}
+                            <span className="mt-1 flex flex-wrap gap-1 text-[11px] text-muted-foreground/60">
+                              {skill.source ? <span>{skill.source}</span> : null}
+                              {skill.compatibility ? <span>· {skill.compatibility}</span> : null}
+                              {skill.allowedTools ? <span>· {skill.allowedTools}</span> : null}
+                            </span>
+                            {skill.tags?.length ? (
+                              <span className="mt-2 flex flex-wrap gap-1">
+                                {skill.tags.slice(0, 5).map((tag) => (
+                                  <span key={tag} className="rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
+                                    {tag}
+                                  </span>
+                                ))}
+                              </span>
+                            ) : null}
+                          </span>
+                          <button
+                            type="button"
+                            className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground/60 transition-colors hover:bg-secondary hover:text-foreground"
+                            onClick={() => void readSkillContent(skill.name)}
+                            disabled={saving || readingLoading}
+                            title={t('readSkill')}
+                            aria-label={`${t('readSkill')}: ${skill.displayName || skill.name}`}
+                          >
+                            <BookOpen className="size-4" />
+                          </button>
+                        </div>
+                      )
+                    })
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        {!isReading ? (
+          <div className="flex justify-end gap-2 border-t border-border p-4">
+            <Button type="button" variant="outline" onClick={closeDialog} disabled={saving}>
+              {t('cancel')}
+            </Button>
+            <Button type="button" onClick={save} disabled={loading || saving}>
+              {saving ? t('saving') : t('save')}
+            </Button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  )
+}

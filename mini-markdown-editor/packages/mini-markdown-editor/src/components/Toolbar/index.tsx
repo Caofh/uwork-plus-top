@@ -1,0 +1,72 @@
+import { FC } from "react";
+import styled from "styled-components";
+import { ToolbarItem } from "./ToolbarItem";
+import { CopyCodeButton } from "./CopyCodeButton";
+import { useSyncEditorView } from "@/hooks/use-sync-editorview";
+import { toolbarConfig } from "@/config/toolbar";
+import { t } from "@/locales";
+import { CLASS_PREFIX } from "@/common";
+
+const ToolbarContent = styled.div`
+  width: 100%;
+  height: 35px;
+  /* border-bottom: 1px solid #e6e6e6; */
+  border-bottom: 1px solid ${(props) => props.theme.borderColor};
+  padding: 4px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: auto;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background-color: #191d24;
+  border-top: 1px solid #464646;
+  margin-top: -1px;
+`;
+
+const ToolbarLeft = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ToolbarRight = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Divider = styled.div`
+  /* background-color: #e6e6e6; */
+  background-color: ${(props) => props.theme.borderColor};
+  display: inline-block;
+  height: 16px;
+  margin: 0 8px;
+  position: relative;
+  top: 0.1em;
+  width: 1px;
+`;
+
+const Toolbar: FC = () => {
+  const toolbars = toolbarConfig.getAllToolbars();
+  useSyncEditorView();
+
+  return (
+    <ToolbarContent className={`${CLASS_PREFIX}-toolbar-content`}>
+      <ToolbarLeft>
+        {toolbars.map((item, index) =>
+          item.type === "line" ? (
+            <Divider key={`divider-${index}`} />
+          ) : (
+            <ToolbarItem key={`item-${index}`} {...item} t={t} />
+          ),
+        )}
+      </ToolbarLeft>
+      <ToolbarRight>
+        <CopyCodeButton />
+      </ToolbarRight>
+    </ToolbarContent>
+  );
+};
+
+export default Toolbar;
