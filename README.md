@@ -370,11 +370,11 @@ flowchart TB
   end
 
   subgraph data [Local Data]
-    DS[~/UWORK-PLUS/dataSql/*.json]
+    DS["~/UWORK-PLUS/dataSql/*.json"]
     E --> DS
   end
 
-  subgraph remote [Remote (self-hosted)]
+  subgraph remote ["Remote (self-hosted)"]
     API[your API]
     WEB[your static host]
   end

@@ -367,11 +367,11 @@ flowchart TB
   end
 
   subgraph data [本地数据]
-    DS[~/UWORK-PLUS/dataSql/*.json]
+    DS["~/UWORK-PLUS/dataSql/*.json"]
     E --> DS
   end
 
-  subgraph remote [线上服务（自托管）]
+  subgraph remote ["线上服务（自托管）"]
     API[your API]
     WEB[your static host]
   end
