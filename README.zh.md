@@ -4,7 +4,7 @@
 
 个人研发工作台：把 **sh 脚本快捷执行**、**应用/网站导航**、**文档笔记**、**接口代理与调试**、**Hosts 管理**、**代码沉淀**、**AI 会话（QuickForge）** 等能力整合在一个桌面客户端里，同时提供 Web 端与配套工具链。
 
-- 官网：<a href="https://tpdoc.cn/uworkplus/introduction?origin=custom" target="_blank" rel="noopener noreferrer">https://tpdoc.cn/uworkplus/introduction?origin=custom</a>
+- 官网：https://tpdoc.cn/uworkplus/introduction?origin=custom
 - 线上演示（需自行部署）：配置 `VITE_REMOTE_ORIGIN` 后访问 `{ORIGIN}/uworkplus/`
 - 仓库地址：https://gitee.com/redorc/uwork-plus-top.git
 - GitHub：https://github.com/Caofh/uwork-plus-top.git
@@ -411,7 +411,7 @@ yarn dev:web
 
 | 资源 | 说明 |
 |------|------|
-| 官网 / 产品介绍 | <a href="https://tpdoc.cn/uworkplus/introduction?origin=custom" target="_blank" rel="noopener noreferrer">https://tpdoc.cn/uworkplus/introduction?origin=custom</a> |
+| 官网 / 产品介绍 | https://tpdoc.cn/uworkplus/introduction?origin=custom |
 | 前端入口 | `{VITE_REMOTE_ORIGIN}/uworkplus/`（自托管） |
 | 产品介绍（自托管） | `{VITE_REMOTE_ORIGIN}/uworkplus/introduction` |
 | Electron 更新清单 | `{VITE_REMOTE_ORIGIN}/updates/update-info-latest.json` |
