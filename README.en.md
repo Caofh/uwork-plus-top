@@ -6,6 +6,7 @@ A personal R&D workbench that bundles **shell script shortcuts**, **app/site nav
 
 - Live demo (self-hosted): set `VITE_REMOTE_ORIGIN`, then open `{ORIGIN}/uworkplus/`
 - Repository: https://gitee.com/redorc/uwork-plus-top.git
+- GitHub: https://github.com/Caofh/uwork-plus-top.git
 
 ---
 
@@ -64,6 +65,7 @@ First-time clone:
 
 ```bash
 git clone --recursive https://gitee.com/redorc/uwork-plus-top.git
+git clone --recursive https://github.com/Caofh/uwork-plus-top.git
 cd uwork-plus-top
 ```
 

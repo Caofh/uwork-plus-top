@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://gitee.com/redorc/uwork-plus-top.git",
+  "repositoryGithub": "https://github.com/Caofh/uwork-plus-top.git",
   "author": "UworkPlus Contributors",
   "license": "MIT",
   "scripts": {

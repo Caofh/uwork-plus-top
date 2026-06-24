@@ -9,6 +9,7 @@
     "url": "https://gitee.com/redorc/uwork-plus-top.git",
     "directory": "uworkplus-code-lowcodeEditor"
   },
+  "repositoryGithub": "https://github.com/Caofh/uwork-plus-top.git",
   "license": "MIT",
   "author": "UworkPlus Contributors",
   "engines": {

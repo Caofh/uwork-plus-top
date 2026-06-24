@@ -6,6 +6,7 @@
 
 - 线上演示（需自行部署）：配置 `VITE_REMOTE_ORIGIN` 后访问 `{ORIGIN}/uworkplus/`
 - 仓库地址：https://gitee.com/redorc/uwork-plus-top.git
+- GitHub：https://github.com/Caofh/uwork-plus-top.git
 
 ---
 
@@ -64,6 +65,7 @@ Electron 会将核心 JSON 数据存放在用户目录：
 
 ```bash
 git clone --recursive https://gitee.com/redorc/uwork-plus-top.git
+git clone --recursive https://github.com/Caofh/uwork-plus-top.git
 cd uwork-plus-top
 ```
 

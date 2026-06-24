@@ -6,6 +6,7 @@ Thank you for your interest in contributing!
 
 ```bash
 git clone https://gitee.com/redorc/uwork-plus-top.git
+git clone https://github.com/Caofh/uwork-plus-top.git
 cd uwork-plus-top
 yarn install:all
 ```
@@ -17,6 +18,17 @@ cp web/.env.example web/.env.local
 ```
 
 See [README.md](./README.md#配置) (Chinese) or [README.en.md](./README.en.md#configuration) for all configuration options.
+
+## Git Author Email
+
+To avoid exposing personal or employer emails in public history, configure your local identity before committing:
+
+```bash
+git config user.name "UworkPlus Contributors"
+git config user.email "contributors@users.noreply.github.com"
+```
+
+Use `--global` only if you want this identity for all repositories on your machine.
 
 ## Development
 
